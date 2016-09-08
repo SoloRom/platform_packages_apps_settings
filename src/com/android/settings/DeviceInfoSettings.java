@@ -44,6 +44,10 @@ import com.android.settings.search.Indexable;
 import com.android.settingslib.DeviceInfoUtils;
 import com.android.settingslib.RestrictedLockUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +75,8 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String PROPERTY_EQUIPMENT_ID = "ro.ril.fccid";
     private static final String KEY_DEVICE_FEEDBACK = "device_feedback";
     private static final String KEY_SAFETY_LEGAL = "safetylegal";
+    private static final String KEY_SOLO_VERSION = "solo_version";
+    private static final String KEY_MOD_BUILD_DATE = "build_date";
 
     static final int TAPS_TO_BE_A_DEVELOPER = 7;
 
@@ -119,6 +125,8 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         setStringSummary(KEY_BUILD_NUMBER, Build.DISPLAY);
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(DeviceInfoUtils.getFormattedKernelVersion());
+        setValueSummary(KEY_SOLO_VERSION, "ro.solo.version");
+        setValueSummary(KEY_MOD_BUILD_DATE, "ro.build.date");
 
         if (!SELinux.isSELinuxEnabled()) {
             String status = getResources().getString(R.string.selinux_status_disabled);
@@ -384,6 +392,21 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         }
     }
 
+    /**
+     * Reads a line from the specified file.
+     * @param filename the file to read from
+     * @return the first line, if any.
+     * @throws IOException if the file couldn't be read
+     */
+    private static String readLine(String filename) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(filename), 256);
+        try {
+            return reader.readLine();
+        } finally {
+            reader.close();
+        }
+    }
+
     public static final SummaryLoader.SummaryProviderFactory SUMMARY_PROVIDER_FACTORY
             = new SummaryLoader.SummaryProviderFactory() {
         @Override
@@ -443,5 +466,4 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
                 return SystemProperties.get(property).equals("");
             }
         };
-
 }

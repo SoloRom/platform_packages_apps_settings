@@ -17,20 +17,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         android:title="@string/about_settings">
 
-        <!-- System update settings - launches activity -->
+        <!-- System update settings - launches activity >
         <PreferenceScreen android:key="system_update_settings"
                 android:title="@string/system_update_settings_list_item_title"
                 android:summary="@string/system_update_settings_list_item_summary">
             <intent android:action="android.settings.SYSTEM_UPDATE_SETTINGS" />
-        </PreferenceScreen>
+        </PreferenceScreen-->
 
 
-        <PreferenceScreen android:key="additional_system_update_settings"
+        <!--PreferenceScreen android:key="additional_system_update_settings"
                           android:title="@string/additional_system_update_settings_list_item_title">
             <intent android:action="android.intent.action.MAIN"
                     android:targetPackage="@string/additional_system_update"
                     android:targetClass="@string/additional_system_update_menu" />
-        </PreferenceScreen>
+        </PreferenceScreen-->
 
         <!-- Device status - launches activity -->
         <PreferenceScreen android:key="status_info"
@@ -79,6 +79,12 @@
                 android:title="@string/firmware_version"
                 android:summary="@string/device_info_default"/>
 
+        <!-- Solo firmware version -->
+	<Preference android:key="solo_version"
+		style="?android:preferenceInformationStyle"
+		android:title="@string/solo_version"
+		android:summary="@string/device_info_default" />
+
         <!-- Security patch level -->
         <Preference android:key="security_patch"
                 android:enabled="false"
@@ -120,5 +126,11 @@
                 android:shouldDisableView="false"
                 android:title="@string/selinux_status"
                 android:summary="@string/selinux_status_enforcing"/>
+
+        <!-- Build date -->
+	<Preference android:key="build_date"
+		style="?android:preferenceInformationStyle"
+		android:title="@string/build_date"
+		android:summary="@string/device_info_default" />
 
 </PreferenceScreen>
